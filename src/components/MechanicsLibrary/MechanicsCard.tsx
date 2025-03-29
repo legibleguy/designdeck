@@ -1,6 +1,13 @@
 interface MechanicCardProps {
   title: string;
   description: string;
+  category?: string;
+  longDescription?: string;
+  examples?: string[];
+  solvedProblems?: string[];
+  minTimeToImplement?: string;
+  maxTimeToImplement?: string;
+  timeToImplementExplained?: string;
 }
 
 export function MechanicCard({ title, description }: MechanicCardProps) {

@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GameMechanic {
+  id                    String   @id @default(cuid())
+  title                 String   @unique
+  category              String
+  description           String
+  longDescription       String
+  examples              String
+  solvedProblems        String
+  minTimeToImplement    Int
+  maxTimeToImplement    Int
+  timeToImplementExplained String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
