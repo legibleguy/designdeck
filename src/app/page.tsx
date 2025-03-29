@@ -7,7 +7,9 @@ export default function Home() {
       {/* Left Sidebar - Mechanics Library */}
       <div className="w-72 bg-white p-4 border-r border-gray-200">
         <h2 className="text-lg font-semibold mb-4 text-gray-900">Mechanics Library</h2>
-        <MechanicsLibrary />
+        <div className="h-[calc(100vh-4rem)] overflow-y-auto">
+          <MechanicsLibrary />
+        </div>
       </div>
 
       {/* Main Content - Document Editor */}
