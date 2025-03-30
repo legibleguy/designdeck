@@ -11,14 +11,15 @@ interface ProjectTag {
 interface ProjectTagsProps {
   tags: ProjectTag[];
   onDrop: (mechanic: { title: string; description: string }) => void;
-  onRemove: (tagId: string, tagTitle: string) => void; // Add onRemove prop
+  onRemove: (tagId: string, tagTitle: string) => void;
+  onUpdateRelation: (tagId: string, newRelation: string) => void; // Add onUpdateRelation prop
 }
 
-export function ProjectTags({ tags, onDrop, onRemove }: ProjectTagsProps) {
+export function ProjectTags({ tags, onDrop, onRemove, onUpdateRelation }: ProjectTagsProps) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'MECHANIC',
     drop: (item: { title: string; description: string }) => {
-      onDrop(item); // Call the onDrop function passed from the parent
+      onDrop(item);
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -41,18 +42,23 @@ export function ProjectTags({ tags, onDrop, onRemove }: ProjectTagsProps) {
         <ul className="space-y-2">
           {tags.map((tag) => (
             <li key={tag.id} className="text-gray-900">
-              <div className="flex justify-between items-center">
-                <div>
+              <div className="flex flex-col space-y-2">
+                <div className="flex justify-between items-center">
                   <h3 className="font-medium">{tag.title}</h3>
-                  <p className="text-sm text-gray-600">{tag.description}</p>
-                  {tag.relation && <p className="text-xs text-gray-500">Relation: {tag.relation}</p>}
+                  <button
+                    onClick={() => onRemove(tag.id, tag.title)}
+                    className="text-red-500 text-sm hover:underline"
+                  >
+                    Remove
+                  </button>
                 </div>
-                <button
-                  onClick={() => onRemove(tag.id, tag.title)} // Call onRemove when clicked
-                  className="text-red-500 text-sm hover:underline"
-                >
-                  Remove
-                </button>
+                <input
+                  type="text"
+                  value={tag.relation || ''}
+                  onChange={(e) => onUpdateRelation(tag.id, e.target.value)} // Update relation on input change
+                  placeholder="Describe how this relates to your project..."
+                  className="p-2 border rounded text-sm text-gray-700"
+                />
               </div>
             </li>
           ))}

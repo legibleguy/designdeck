@@ -23,6 +23,7 @@ export default function Home() {
       id: crypto.randomUUID(), // Generate a unique ID for the tag
       title: mechanic.title,
       description: mechanic.description,
+      relation: '', // Initialize relation as an empty string
     };
     setProjectTags((prevTags) => [...prevTags, newTag]);
     setDroppedMechanics((prev) => [...prev, mechanic.title]); // Track dropped mechanics
@@ -31,6 +32,14 @@ export default function Home() {
   const handleRemoveTag = (tagId: string, tagTitle: string) => {
     setProjectTags((prevTags) => prevTags.filter((tag) => tag.id !== tagId)); // Remove tag
     setDroppedMechanics((prev) => prev.filter((title) => title !== tagTitle)); // Make it visible in Mechanics Library
+  };
+
+  const handleUpdateRelation = (tagId: string, newRelation: string) => {
+    setProjectTags((prevTags) =>
+      prevTags.map((tag) =>
+        tag.id === tagId ? { ...tag, relation: newRelation } : tag
+      )
+    );
   };
 
   return (
@@ -58,7 +67,12 @@ export default function Home() {
         {/* Right Sidebar - Project Tags */}
         <div className="w-72 bg-white p-4 border-l border-gray-200">
           <h2 className="text-lg font-semibold mb-4 text-gray-900">Project Tags</h2>
-          <ProjectTags tags={projectTags} onDrop={handleDrop} onRemove={handleRemoveTag} />
+          <ProjectTags
+            tags={projectTags}
+            onDrop={handleDrop}
+            onRemove={handleRemoveTag}
+            onUpdateRelation={handleUpdateRelation} // Pass the update handler
+          />
         </div>
       </main>
     </DndProvider>
