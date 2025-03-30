@@ -1,27 +1,15 @@
 'use client';
 
 import { MechanicCard } from './MechanicsCard';
-
 import { useEffect, useState } from 'react';
 import type { GameMechanic } from '@prisma/client';
 
-// This is temporary mock data - we'll replace it with real data from your CSV
-const mockMechanics = [
-  {
-    title: "Weather Systems",
-    description: "Dynamic weather effects that impact gameplay.",
-  },
-  {
-    title: "Wall Run",
-    description: "Allows players to run along walls for dynamic traversal.",
-  },
-  {
-    title: "Voice Input",
-    description: "Control gameplay using voice commands.",
-  },
-];
+interface MechanicsLibraryProps {
+  onDrop: (mechanicTitle: string) => void;
+  hiddenMechanics: string[]; // List of mechanics to hide
+}
 
-export function MechanicsLibrary() {
+export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryProps) {
   const [mechanics, setMechanics] = useState<GameMechanic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,15 +33,20 @@ export function MechanicsLibrary() {
     return <div className="p-4 text-gray-500">Loading mechanics...</div>;
   }
 
-  return (
-      <div className="space-y-4">
-        {mechanics.map((mechanic) => (
-          <MechanicCard
-            key={mechanic.id}
-            title={mechanic.title}
-            description={mechanic.description}
-          />
-        ))}
-      </div>
+  // Filter out hidden mechanics
+  const visibleMechanics = mechanics.filter(
+    (mechanic) => !hiddenMechanics.includes(mechanic.title)
   );
-} 
+
+  return (
+    <div className="space-y-4">
+      {visibleMechanics.map((mechanic) => (
+        <MechanicCard
+          key={mechanic.id}
+          title={mechanic.title}
+          description={mechanic.description}
+        />
+      ))}
+    </div>
+  );
+}
