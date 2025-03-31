@@ -4,22 +4,20 @@ import { useDrop } from 'react-dnd';
 interface ProjectTag {
   id: string;
   title: string;
-  description: string;
-  relation?: string;
 }
 
 interface ProjectTagsProps {
   tags: ProjectTag[];
   onDrop: (mechanic: { title: string; description: string }) => void;
-  onRemove: (tagId: string, tagTitle: string) => void;
-  onUpdateRelation: (tagId: string, newRelation: string) => void; // Add onUpdateRelation prop
+  onRemove: (tagId: string) => void;
+  onUpdateRelation: (tagId: string, newRelation: string) => void; 
 }
 
-export function ProjectTags({ tags, onDrop, onRemove, onUpdateRelation }: ProjectTagsProps) {
+export function ProjectTags({ tags, onDrop, onRemove }: ProjectTagsProps) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'MECHANIC',
-    drop: (item: { title: string; description: string }) => {
-      onDrop(item);
+    drop: (item: { title: string }) => {
+      onDrop({ title: item.title, description: 'Default description' });
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -41,25 +39,17 @@ export function ProjectTags({ tags, onDrop, onRemove, onUpdateRelation }: Projec
       ) : (
         <ul className="space-y-2">
           {tags.map((tag) => (
-            <li key={tag.id} className="text-gray-900">
-              <div className="flex flex-col space-y-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-medium">{tag.title}</h3>
-                  <button
-                    onClick={() => onRemove(tag.id, tag.title)}
-                    className="text-red-500 text-sm hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  value={tag.relation || ''}
-                  onChange={(e) => onUpdateRelation(tag.id, e.target.value)} // Update relation on input change
-                  placeholder="Relation to your game..."
-                  className="p-2 border rounded text-sm text-gray-700"
-                />
-              </div>
+            <li
+              key={tag.id}
+              className="flex justify-between items-center bg-gray-100 p-2 rounded-lg shadow-sm hover:bg-gray-200"
+            >
+              <span className="text-gray-900">{tag.title}</span>
+              <button
+                onClick={() => onRemove(tag.id)}
+                className="text-gray-500 hover:text-red-500"
+              >
+                ✕
+              </button>
             </li>
           ))}
         </ul>

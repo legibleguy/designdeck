@@ -3,20 +3,20 @@ import { useDrag } from 'react-dnd';
 
 interface MechanicCardProps {
   title: string;
-  description: string;
-  category?: string;
-  longDescription?: string;
-  examples?: string[];
-  solvedProblems?: string[];
-  minTimeToImplement?: string;
-  maxTimeToImplement?: string;
-  timeToImplementExplained?: string;
 }
 
-export function MechanicCard({ title, description }: MechanicCardProps) {
+const gradients = [
+  'linear-gradient(135deg, #ff9a9e, #fad0c4)',
+  'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+  'linear-gradient(135deg, #fbc2eb, #a6c1ee)',
+  'linear-gradient(135deg, #84fab0, #8fd3f4)',
+  'linear-gradient(135deg, #fccb90, #d57eeb)',
+];
+
+export function MechanicCard({ title }: MechanicCardProps) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'MECHANIC',
-    item: { title, description }, // Include description in the dragged item
+    item: { title },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -25,15 +25,22 @@ export function MechanicCard({ title, description }: MechanicCardProps) {
   const dragRef = React.useRef<HTMLDivElement>(null);
   drag(dragRef);
 
+  const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+
   return (
     <div
       ref={dragRef}
-      className={`bg-white p-4 rounded-lg shadow-sm border border-gray-200 cursor-move hover:shadow-md transition-shadow ${
+      className={`p-3 rounded-lg shadow-md cursor-move transition-transform ${
         isDragging ? 'opacity-50' : ''
       }`}
+      style={{
+        background: randomGradient,
+        color: 'white',
+        width: '90%', // Adjust card width
+        margin: '0 auto', // Center the card
+      }}
     >
-      <h3 className="font-medium text-gray-900 mb-1">{title}</h3>
-      <p className="text-sm text-gray-600">{description}</p>
+      <h3 className="font-semibold text-xl">{title}</h3> {/* Increased text size */}
     </div>
   );
 }

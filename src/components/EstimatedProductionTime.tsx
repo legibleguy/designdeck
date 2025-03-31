@@ -5,17 +5,16 @@ interface EstimatedProductionTimeProps {
 }
 
 export function EstimatedProductionTime({ tags }: EstimatedProductionTimeProps) {
-  const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [estimate, setEstimate] = useState<string>('Generate Time Estimate');
 
   const handleAskLLM = async () => {
     if (tags.length === 0) {
-      setResponse('No tags available to generate a suggestion.');
+      setEstimate('No tags available');
       return;
     }
 
     setLoading(true);
-    setResponse(''); // Clear previous response
 
     try {
       const res = await fetch('/api/openrouter', {
@@ -29,7 +28,7 @@ export function EstimatedProductionTime({ tags }: EstimatedProductionTimeProps) 
               content: [
                 {
                   type: 'text',
-                  text: `Suggest a name based on these tags: ${tags.join(', ')}`,
+                  text: `Estimate production time based on these tags: ${tags.join(', ')}`,
                 },
               ],
             },
@@ -42,33 +41,21 @@ export function EstimatedProductionTime({ tags }: EstimatedProductionTimeProps) 
       }
 
       const data = await res.json();
-      setResponse(data.choices[0]?.message?.content || 'No response received.');
+      setEstimate(data.choices[0]?.message?.content || 'No response received.');
     } catch (error) {
-      setResponse(`Error: ${error instanceof Error ? error.message : 'An unknown error occurred.'}`);
+      setEstimate('Error fetching estimate');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="mb-4 p-4 bg-white border rounded shadow">
-      <h3 className="text-lg font-semibold mb-2">Estimated Production Time</h3>
-      <button
-        onClick={handleAskLLM}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
-        disabled={loading}
-      >
-        {loading ? 'Asking LLM...' : 'Generate Name Suggestion'}
-      </button>
-      <div className="mt-4">
-        <textarea
-          readOnly
-          value={response}
-          placeholder="LLM response will appear here..."
-          className="w-full p-2 border rounded text-sm text-gray-700"
-          rows={4}
-        />
-      </div>
-    </div>
+    <button
+      onClick={handleAskLLM}
+      className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow hover:opacity-90 disabled:opacity-50"
+      disabled={loading}
+    >
+      {loading ? 'Calculating...' : estimate}
+    </button>
   );
 }

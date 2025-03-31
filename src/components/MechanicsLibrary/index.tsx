@@ -6,7 +6,7 @@ import type { GameMechanic } from '@prisma/client';
 
 interface MechanicsLibraryProps {
   onDrop: (mechanicTitle: string) => void;
-  hiddenMechanics: string[]; // List of mechanics to hide
+  hiddenMechanics: string[];
 }
 
 export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryProps) {
@@ -33,7 +33,6 @@ export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryPr
     return <div className="p-4 text-gray-500">Loading mechanics...</div>;
   }
 
-  // Filter out hidden mechanics
   const visibleMechanics = mechanics.filter(
     (mechanic) => !hiddenMechanics.includes(mechanic.title)
   );
@@ -41,11 +40,7 @@ export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryPr
   return (
     <div className="space-y-4">
       {visibleMechanics.map((mechanic) => (
-        <MechanicCard
-          key={mechanic.id}
-          title={mechanic.title}
-          description={mechanic.description}
-        />
+        <MechanicCard key={mechanic.id} title={mechanic.title} />
       ))}
     </div>
   );

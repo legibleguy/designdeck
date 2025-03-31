@@ -30,9 +30,12 @@ export default function Home() {
     setDroppedMechanics((prev) => [...prev, mechanic.title]); // Track dropped mechanics
   };
 
-  const handleRemoveTag = (tagId: string, tagTitle: string) => {
-    setProjectTags((prevTags) => prevTags.filter((tag) => tag.id !== tagId)); // Remove tag
-    setDroppedMechanics((prev) => prev.filter((title) => title !== tagTitle)); // Make it visible in Mechanics Library
+  const handleRemoveTag = (tagId: string) => {
+    const tagToRemove = projectTags.find((tag) => tag.id === tagId);
+    if (tagToRemove) {
+      setProjectTags((prevTags) => prevTags.filter((tag) => tag.id !== tagId)); // Remove tag
+      setDroppedMechanics((prev) => prev.filter((title) => title !== tagToRemove.title)); // Make it visible in Mechanics Library
+    }
   };
 
   const handleUpdateRelation = (tagId: string, newRelation: string) => {
@@ -46,9 +49,9 @@ export default function Home() {
   return (
     <DndProvider backend={HTML5Backend}>
       <main className="flex min-h-screen bg-gray-50">
-        {/* Left Sidebar - Mechanics Library */}
+        {/* Left Sidebar - Building Blocks */}
         <div className="w-72 bg-white p-4 border-r border-gray-200">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Mechanics Library</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">Building Blocks</h2> {/* Increased size */}
           <div className="h-[calc(100vh-4rem)] overflow-y-auto">
             <MechanicsLibrary
               onDrop={(mechanicTitle) => console.log(`Dropped mechanic: ${mechanicTitle}`)}
@@ -60,7 +63,6 @@ export default function Home() {
         {/* Main Content - Document Editor */}
         <div className="flex-1 p-8 overflow-auto">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6 text-gray-900">Design Deck</h1>
             <Editor />
           </div>
         </div>
