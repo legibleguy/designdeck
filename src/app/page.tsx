@@ -18,6 +18,7 @@ interface ProjectTag {
 export default function Home() {
   const [projectTags, setProjectTags] = useState<ProjectTag[]>([]);
   const [droppedMechanics, setDroppedMechanics] = useState<string[]>([]);
+  const [gameDesignText, setGameDesignText] = useState<string>(''); // Track the game design document text
 
   const handleDrop = (mechanic: { title: string; description: string }) => {
     const newTag: ProjectTag = {
@@ -61,7 +62,7 @@ export default function Home() {
         <div className="flex-1 p-8 overflow-auto">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold mb-6 text-gray-900">Design Deck</h1>
-            <Editor />
+            <Editor value={gameDesignText} onChange={setGameDesignText} /> {/* Pass value and onChange */}
           </div>
         </div>
 
@@ -75,6 +76,8 @@ export default function Home() {
               onDrop={handleDrop}
               onRemove={handleRemoveTag}
               onUpdateRelation={handleUpdateRelation}
+              gameDesignText={gameDesignText} // Pass the game design document text
+              setGameDesignText={setGameDesignText} // Pass setter to update the editor content
             />
           </div>
         </div>
