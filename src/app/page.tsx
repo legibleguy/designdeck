@@ -50,9 +50,9 @@ export default function Home() {
     <DndProvider backend={HTML5Backend}>
       <main className="flex min-h-screen bg-gray-50">
         {/* Left Sidebar - Building Blocks */}
-        <div className="w-72 bg-white p-4 border-r border-gray-200">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900">Building Blocks</h2> {/* Increased size */}
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="w-72 bg-white p-6 border-r border-gray-200">
+          <h2 className="text-3xl font-extrabold mb-6 text-gray-900">Building Blocks</h2> {/* Updated size and weight */}
+          <div className="h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide"> {/* Added scrollbar-hide */}
             <MechanicsLibrary
               onDrop={(mechanicTitle) => console.log(`Dropped mechanic: ${mechanicTitle}`)}
               hiddenMechanics={droppedMechanics} // Pass dropped mechanics to hide
@@ -68,10 +68,10 @@ export default function Home() {
         </div>
 
         {/* Right Sidebar - Project Tags */}
-        <div className="w-72 bg-white p-4 border-l border-gray-200">
+        <div className="w-72 bg-white p-6 border-l border-gray-200">
           <EstimatedProductionTime tags={projectTags.map((tag) => tag.title)} />
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Project Tags</h2>
-          <div className="h-[calc(100vh-22rem)] overflow-y-auto"> {/* Added fixed height and scroll */}
+          <h2 className="text-2xl font-bold mb-4 text-gray-900">Project Tags</h2>
+          <div className="h-[calc(100vh-24rem)] overflow-y-auto"> {/* Added fixed height and scroll */}
             <ProjectTags
               tags={projectTags}
               onDrop={handleDrop}

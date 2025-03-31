@@ -6,11 +6,11 @@ interface MechanicCardProps {
 }
 
 const gradients = [
-  'linear-gradient(135deg, #ff9a9e, #fad0c4)',
-  'linear-gradient(135deg, #a18cd1, #fbc2eb)',
-  'linear-gradient(135deg, #fbc2eb, #a6c1ee)',
-  'linear-gradient(135deg, #84fab0, #8fd3f4)',
-  'linear-gradient(135deg, #fccb90, #d57eeb)',
+  'linear-gradient(135deg, #a855f7, #3b82f6)',
+  'linear-gradient(135deg, #f97316, #f43f5e)',
+  'linear-gradient(135deg, #10b981, #3b82f6)',
+  'linear-gradient(135deg, #facc15, #f97316)',
+  'linear-gradient(135deg, #3b82f6, #9333ea)',
 ];
 
 export function MechanicCard({ title }: MechanicCardProps) {
@@ -30,17 +30,20 @@ export function MechanicCard({ title }: MechanicCardProps) {
   return (
     <div
       ref={dragRef}
-      className={`p-3 rounded-lg shadow-md cursor-move transition-transform ${
+      className={`p-4 rounded-lg shadow-md cursor-move transition-transform ${
         isDragging ? 'opacity-50' : ''
       }`}
       style={{
         background: randomGradient,
         color: 'white',
-        width: '90%', // Adjust card width
-        margin: '0 auto', // Center the card
+        fontSize: '16px',
+        fontWeight: '500',
+        textAlign: 'center',
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
       }}
     >
-      <h3 className="font-semibold text-xl">{title}</h3> {/* Increased text size */}
+      <h3 className="font-semibold text-lg">{title}</h3>
     </div>
   );
 }

@@ -10,7 +10,7 @@ interface ProjectTagsProps {
   tags: ProjectTag[];
   onDrop: (mechanic: { title: string; description: string }) => void;
   onRemove: (tagId: string) => void;
-  onUpdateRelation: (tagId: string, newRelation: string) => void; 
+  onUpdateRelation: (tagId: string, newRelation: string) => void;
 }
 
 export function ProjectTags({ tags, onDrop, onRemove }: ProjectTagsProps) {

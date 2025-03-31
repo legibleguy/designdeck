@@ -16,7 +16,7 @@ export function Editor() {
   }
 
   return (
-    <div className="p-4 bg-white border rounded shadow">
+    <div className="p-6 bg-white border rounded-lg shadow-md">
       <EditorContent
         editor={editor}
         className="prose prose-lg text-gray-800"

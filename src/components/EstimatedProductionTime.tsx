@@ -52,7 +52,7 @@ export function EstimatedProductionTime({ tags }: EstimatedProductionTimeProps) 
   return (
     <button
       onClick={handleAskLLM}
-      className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow hover:opacity-90 disabled:opacity-50"
+      className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow hover:opacity-90 disabled:opacity-50"
       disabled={loading}
     >
       {loading ? 'Calculating...' : estimate}
