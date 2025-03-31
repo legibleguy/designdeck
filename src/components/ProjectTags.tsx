@@ -56,7 +56,7 @@ export function ProjectTags({ tags, onDrop, onRemove, onUpdateRelation }: Projec
                   type="text"
                   value={tag.relation || ''}
                   onChange={(e) => onUpdateRelation(tag.id, e.target.value)} // Update relation on input change
-                  placeholder="Describe how this relates to your project..."
+                  placeholder="Relation to your game..."
                   className="p-2 border rounded text-sm text-gray-700"
                 />
               </div>
