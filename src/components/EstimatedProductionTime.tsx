@@ -58,13 +58,13 @@ export function EstimatedProductionTime({ tags }: EstimatedProductionTimeProps) 
         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
         disabled={loading}
       >
-        {loading ? 'Asking LLM...' : 'Generate Name Suggestion'}
+        {loading ? 'Asking LLM...' : 'Generate Time Estimate'}
       </button>
       <div className="mt-4">
         <textarea
           readOnly
           value={response}
-          placeholder="LLM response will appear here..."
+          placeholder="Estimates will appear here..."
           className="w-full p-2 border rounded text-sm text-gray-700"
           rows={4}
         />
