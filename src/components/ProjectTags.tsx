@@ -25,12 +25,21 @@ export function ProjectTags({
   gameDesignText,
   setGameDesignText,
 }: ProjectTagsProps) {
+  const [expandedTagId, setExpandedTagId] = useState<string | null>(null); // Track which tag's text box is visible
   const [loadingTagId, setLoadingTagId] = useState<string | null>(null);
+
+  const handleToggleRelation = (tagId: string) => {
+    setExpandedTagId((prev) => (prev === tagId ? null : tagId)); // Toggle visibility
+  };
 
   const handleGenerate = async (tag: ProjectTag) => {
     setLoadingTagId(tag.id);
 
     try {
+      const relationText = tag.relation
+        ? ` Here is how this tag relates to the project: "${tag.relation}".`
+        : '';
+
       const requestBody = {
         model: 'google/gemini-2.5-pro-exp-03-25:free',
         messages: [
@@ -40,8 +49,8 @@ export function ProjectTags({
               {
                 type: 'text',
                 text: gameDesignText
-                  ? `Based on the following game design document, append a new idea that integrates the tag "${tag.title}" (${tag.description}). Maintain the original tone, format, and style of the text, and avoid rewriting or restructuring the existing content. Here is the current document:\n\n${gameDesignText}`
-                  : `Generate a new game idea based on the tag "${tag.title}" (${tag.description}). Write in a casual, amateur tone and format, as if brainstorming ideas informally.`,
+                  ? `Based on the following game design document, append a new idea that integrates the tag "${tag.title}" (${tag.description}).${relationText} Maintain the original tone, format, and style of the text, and avoid rewriting or restructuring the existing content. Here is the current document:\n\n${gameDesignText}`
+                  : `Generate a new game idea based on the tag "${tag.title}" (${tag.description}).${relationText} Write in a casual, amateur tone and format, as if brainstorming ideas informally.`,
               },
             ],
           },
@@ -108,24 +117,40 @@ export function ProjectTags({
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="flex justify-between items-center bg-gray-100 p-2 rounded-lg shadow-sm hover:bg-gray-200"
+              className="bg-gray-100 p-2 rounded-lg shadow-sm hover:bg-gray-200"
             >
-              <span className="text-gray-900">{tag.title}</span>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handleGenerate(tag)}
-                  className="text-blue-500 hover:text-blue-700"
-                  disabled={loadingTagId === tag.id}
+              <div className="flex justify-between items-center">
+                <span
+                  className="text-gray-900 cursor-pointer"
+                  onClick={() => handleToggleRelation(tag.id)} // Toggle visibility on click
                 >
-                  {loadingTagId === tag.id ? 'Loading...' : '✨'} {/* Magic wand icon or text */}
-                </button>
-                <button
-                  onClick={() => onRemove(tag.id, tag.title)}
-                  className="text-gray-500 hover:text-red-500"
-                >
-                  ✕
-                </button>
+                  {tag.title}
+                </span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleGenerate(tag)}
+                    className="text-blue-500 hover:text-blue-700"
+                    disabled={loadingTagId === tag.id}
+                  >
+                    {loadingTagId === tag.id ? 'Loading...' : '✨'} {/* Magic wand icon or text */}
+                  </button>
+                  <button
+                    onClick={() => onRemove(tag.id, tag.title)}
+                    className="text-gray-500 hover:text-red-500"
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
+              {expandedTagId === tag.id && ( // Show text box if this tag is expanded
+                <textarea
+                  value={tag.relation || ''}
+                  onChange={(e) => onUpdateRelation(tag.id, e.target.value)}
+                  placeholder="Explain how this works in your game..."
+                  className="mt-2 w-full p-2 border rounded text-sm text-gray-700"
+                  rows={2}
+                />
+              )}
             </li>
           ))}
         </ul>

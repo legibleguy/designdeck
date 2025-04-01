@@ -7,6 +7,7 @@ import { MechanicsLibrary } from '@/components/MechanicsLibrary';
 import { Editor } from '@/components/Editor';
 import { ProjectTags } from '@/components/ProjectTags';
 import { EstimatedProductionTime } from '@/components/EstimatedProductionTime';
+import mechanicsData from '@/data/mechanicsData'; // Import mechanics data
 
 interface ProjectTag {
   id: string;
@@ -68,7 +69,11 @@ export default function Home() {
 
         {/* Right Sidebar - Project Tags */}
         <div className="w-72 bg-white p-4 border-l border-gray-200">
-          <EstimatedProductionTime tags={projectTags.map((tag) => tag.title)} />
+          <EstimatedProductionTime
+            tags={projectTags.map((tag) => tag.title)}
+            mechanicsData={mechanicsData} // Pass mechanics data
+            gameDesignText={gameDesignText} // Pass game design document text
+          />
           <h2 className="text-lg font-semibold mb-4 text-gray-900">Project Tags</h2>
           <div className="h-[calc(100vh-22rem)] overflow-y-auto"> {/* Added fixed height and scroll */}
             <ProjectTags
