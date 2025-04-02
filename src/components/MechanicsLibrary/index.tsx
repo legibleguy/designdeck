@@ -39,12 +39,19 @@ export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryPr
   );
 
   return (
-    <div className="space-y-4">
+    <div
+      className="grid grid-cols-1 gap-6 overflow-y-auto scrollbar-hide"
+      style={{
+        padding: '40px',
+        margin: '-16px',
+      }}
+    >
       {visibleMechanics.map((mechanic) => (
         <MechanicCard
           key={mechanic.id}
           title={mechanic.title}
           description={mechanic.description}
+          category={mechanic.category} // Pass the category to the card
         />
       ))}
     </div>

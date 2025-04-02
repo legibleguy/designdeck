@@ -28,7 +28,7 @@ export function Editor({ value, onChange }: EditorProps) {
   }
 
   return (
-    <div className="p-6 bg-white border rounded-lg shadow-md">
+    <div className="p-6 bg-white rounded-lg shadow-md">
       <EditorContent
         editor={editor}
         className="prose prose-lg text-gray-800"

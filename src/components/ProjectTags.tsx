@@ -106,8 +106,8 @@ export function ProjectTags({
   return (
     <div
       ref={dropRef}
-      className={`p-4 rounded-lg border ${
-        isOver ? 'bg-blue-100' : 'bg-gray-50'
+      className={`p-4 rounded-lg ${
+        isOver ? 'bg-blue-100' : tags.length === 0 ? 'bg-white' : 'bg-none'
       }`}
     >
       {tags.length === 0 ? (
@@ -117,7 +117,7 @@ export function ProjectTags({
           {tags.map((tag) => (
             <li
               key={tag.id}
-              className="bg-gray-100 p-2 rounded-lg shadow-sm hover:bg-gray-200"
+              className="bg-white p-2 rounded-lg shadow-sm hover:bg-gray-200"
             >
               <div className="flex justify-between items-center">
                 <span
@@ -129,14 +129,14 @@ export function ProjectTags({
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => handleGenerate(tag)}
-                    className="text-blue-500 hover:text-blue-700"
+                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
                     disabled={loadingTagId === tag.id}
                   >
                     {loadingTagId === tag.id ? 'Loading...' : '✨'} {/* Magic wand icon or text */}
                   </button>
                   <button
                     onClick={() => onRemove(tag.id, tag.title)}
-                    className="text-gray-500 hover:text-red-500"
+                    className="text-gray-500 hover:text-red-500 cursor-pointer"
                   >
                     ✕
                   </button>

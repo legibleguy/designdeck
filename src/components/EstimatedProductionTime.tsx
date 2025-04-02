@@ -139,11 +139,12 @@ ${JSON.stringify(mechanicsInfo, null, 2)}`,
   };
 
   return (
-    <div className="mb-4 p-4 bg-white border rounded shadow">
-      <h3 className="text-lg font-semibold mb-2">Estimated Production Time</h3>
+    <div className="mb-4 p-4" style={{
+      paddingTop: '80px',
+    }}>
       <button
         onClick={handleAskLLM}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
+        className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 disabled:bg-gray-300"
         disabled={loading}
       >
         {loading ? 'Calculating...' : 'Give me a time estimate'}

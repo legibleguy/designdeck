@@ -47,10 +47,23 @@ export default function Home() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <main className="flex min-h-screen bg-gray-50">
+      <main
+        className="flex min-h-screen p-6 rounded-xl border border-gray-200"
+        style={{
+          background: 'linear-gradient(to bottom right, #F8FBFE, #E8F0FF)', // Apple-like gradient
+        }}
+      >
         {/* Left Sidebar - Mechanics Library */}
-        <div className="w-72 bg-white p-4 border-r border-gray-200">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Mechanics Library</h2>
+        <div className="w-90 p-6 rounded-xl border border-gray-200" style={{
+          background: 'rgba(255, 255, 255, 0.6)', // Semi-transparent white
+          backdropFilter: 'blur(10px)', // Smoothens it
+          border: '1px solid rgba(255, 255, 255, 0.3)', // Transparent border
+        }}>
+          <h2 className="text-4xl font-semibold mb-4 text-gray-900" style={{
+            padding: '10px',
+            paddingLeft: '25px',
+            paddingBottom: '0',
+          }}>Idea Blocks</h2>
           <div className="h-[calc(100vh-4rem)] overflow-y-auto">
             <MechanicsLibrary
               onDrop={(mechanicTitle) => console.log(`Dropped mechanic: ${mechanicTitle}`)}
@@ -68,13 +81,16 @@ export default function Home() {
         </div>
 
         {/* Right Sidebar - Project Tags */}
-        <div className="w-72 bg-white p-4 border-l border-gray-200">
+        <div className="w-72 p-4">
           <EstimatedProductionTime
             tags={projectTags.map((tag) => tag.title)}
             mechanicsData={mechanicsData} // Pass mechanics data
             gameDesignText={gameDesignText} // Pass game design document text
           />
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Project Tags</h2>
+          <h2 className="text-2xl font-semibold text-gray-900" style={{
+            padding: '16px',
+            paddingBottom: '0',
+          }}>Project Tags</h2>
           <div className="h-[calc(100vh-22rem)] overflow-y-auto"> {/* Added fixed height and scroll */}
             <ProjectTags
               tags={projectTags}
