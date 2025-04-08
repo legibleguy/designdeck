@@ -9,6 +9,8 @@ import { ProjectTags } from '@/components/ProjectTags';
 import { EstimatedProductionTime } from '@/components/EstimatedProductionTime';
 import mechanicsData from '@/data/mechanicsData'; // Import mechanics data
 
+// import '@/styles/editor.css'; // Import the custom editor styles
+
 interface ProjectTag {
   id: string;
   title: string;
@@ -20,6 +22,7 @@ export default function Home() {
   const [projectTags, setProjectTags] = useState<ProjectTag[]>([]);
   const [droppedMechanics, setDroppedMechanics] = useState<string[]>([]);
   const [gameDesignText, setGameDesignText] = useState<string>(''); // Track the game design document text
+  const [loadingTagId, setLoadingTagId] = useState<string | null>(null); // Track AI loading state
 
   const handleDrop = (mechanic: { title: string; description: string }) => {
     const newTag: ProjectTag = {
@@ -64,7 +67,7 @@ export default function Home() {
             paddingLeft: '25px',
             paddingBottom: '0',
           }}>Idea Blocks</h2>
-          <div className="h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="h-[calc(100vh-4rem)] max-h-[calc(-200px+100vh)] overflow-y-auto">
             <MechanicsLibrary
               onDrop={(mechanicTitle) => console.log(`Dropped mechanic: ${mechanicTitle}`)}
               hiddenMechanics={droppedMechanics} // Pass dropped mechanics to hide
@@ -74,9 +77,13 @@ export default function Home() {
 
         {/* Main Content - Document Editor */}
         <div className="flex-1 p-8 overflow-auto">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6 text-gray-900">Design Deck</h1>
-            <Editor value={gameDesignText} onChange={setGameDesignText} /> {/* Pass value and onChange */}
+          <div className="max-w-4xl mx-auto h-[calc(-200px+100vh)]">
+            {/* <h1 className="text-2xl font-bold mb-6 text-gray-900">Design Deck</h1> */}
+            <Editor
+              value={gameDesignText}
+              onChange={setGameDesignText}
+              disabled={!!loadingTagId} // Disable editor when AI is loading
+            />
           </div>
         </div>
 
@@ -99,6 +106,8 @@ export default function Home() {
               onUpdateRelation={handleUpdateRelation}
               gameDesignText={gameDesignText} // Pass the game design document text
               setGameDesignText={setGameDesignText} // Pass setter to update the editor content
+              loadingTagId={loadingTagId} // Pass loading state
+              setLoadingTagId={setLoadingTagId} // Pass loading state setter
             />
           </div>
         </div>

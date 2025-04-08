@@ -129,7 +129,7 @@ ${JSON.stringify(mechanicsInfo, null, 2)}`,
       const totalMinTime = llmResponse.reduce((sum, item) => sum + item.minTime, 0);
       const totalMaxTime = llmResponse.reduce((sum, item) => sum + item.maxTime, 0);
 
-      setResponse(`Estimated Time: ${totalMinTime} to ${totalMaxTime}`);
+      setResponse(`Estimated Time: ${totalMinTime} to ${totalMaxTime} hours`);
     } catch (error) {
       console.error('Error parsing LLM response:', error);
       setResponse(`Error: ${error instanceof Error ? error.message : 'An unknown error occurred.'}`);
@@ -145,6 +145,9 @@ ${JSON.stringify(mechanicsInfo, null, 2)}`,
       <button
         onClick={handleAskLLM}
         className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 disabled:bg-gray-300"
+        style={{
+          width: '100%'
+        }}
         disabled={loading}
       >
         {loading ? 'Calculating...' : 'Give me a time estimate'}
@@ -174,7 +177,7 @@ ${JSON.stringify(mechanicsInfo, null, 2)}`,
             </ul>
             <button
               onClick={() => setPopupVisible(false)} // Close popup
-              className="absolute top-4 right-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+              className="absolute top-4 right-4 px-3 py-1 bg-red-500 text-white rounded cursor-pointer hover:bg-red-600"
             >
               Close
             </button>

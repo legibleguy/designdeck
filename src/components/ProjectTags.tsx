@@ -15,6 +15,8 @@ interface ProjectTagsProps {
   onUpdateRelation: (tagId: string, newRelation: string) => void;
   gameDesignText: string;
   setGameDesignText: (text: string) => void; // Setter for the Document Editor content
+  loadingTagId: string | null; // Track loading state for the tag
+  setLoadingTagId: (id: string | null) => void; // Add loading state setter
 }
 
 export function ProjectTags({
@@ -24,16 +26,17 @@ export function ProjectTags({
   onUpdateRelation,
   gameDesignText,
   setGameDesignText,
+  loadingTagId,
+  setLoadingTagId,
 }: ProjectTagsProps) {
   const [expandedTagId, setExpandedTagId] = useState<string | null>(null); // Track which tag's text box is visible
-  const [loadingTagId, setLoadingTagId] = useState<string | null>(null);
 
   const handleToggleRelation = (tagId: string) => {
     setExpandedTagId((prev) => (prev === tagId ? null : tagId)); // Toggle visibility
   };
 
   const handleGenerate = async (tag: ProjectTag) => {
-    setLoadingTagId(tag.id);
+    setLoadingTagId(tag.id); // Set loading state
 
     try {
       const relationText = tag.relation
@@ -86,7 +89,7 @@ export function ProjectTags({
     } catch (error) {
       console.error('Error generating text:', error);
     } finally {
-      setLoadingTagId(null);
+      setLoadingTagId(null); // Clear loading state
     }
   };
 
