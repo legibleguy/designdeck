@@ -9,7 +9,7 @@ interface MechanicsLibraryProps {
   hiddenMechanics: string[]; // List of mechanics to hide
 }
 
-export function MechanicsLibrary({ onDrop, hiddenMechanics }: MechanicsLibraryProps) {
+export function MechanicsLibrary({ hiddenMechanics }: MechanicsLibraryProps) {
   const [mechanics, setMechanics] = useState<GameMechanic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
