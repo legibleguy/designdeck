@@ -6,7 +6,7 @@ import path from 'path';
 const prisma = new PrismaClient();
 
 async function importMechanics() {
-  const csvFilePath = path.join(process.cwd(), 'mechanics_database_expanded.csv');
+  const csvFilePath = path.join(process.cwd(), '../mechanics_database_expanded.csv');
   const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
 
   const parser = parse(fileContent, {
